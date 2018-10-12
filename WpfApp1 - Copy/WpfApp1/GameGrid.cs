@@ -8,21 +8,33 @@ namespace WpfApp1
 {
     public class GameGrid
     {
+<<<<<<< HEAD
         private Grid grid;
         
         private int colNum;
         private int rowNum;
+=======
+        private Grid grid;        
+>>>>>>> 536aa65894f80a1fa2c2b2a90a9ab762ad1dd3f8
 
         public GameGrid(Grid grid, int cols, int rows)
         {
             this.grid = grid;
+<<<<<<< HEAD
             this.colNum = cols;
             this.rowNum = rows;
+=======
+            this.cols = cols;
+            this.rows = rows;
+>>>>>>> 536aa65894f80a1fa2c2b2a90a9ab762ad1dd3f8
             InitializeMemoryGrid(cols, rows);
 
         }
 
+<<<<<<< HEAD
         
+=======
+>>>>>>> 536aa65894f80a1fa2c2b2a90a9ab762ad1dd3f8
         private void InitializeMemoryGrid(int cols, int rows)
         {
             for (int i = 0; i < rows; i++)
@@ -37,4 +49,7 @@ namespace WpfApp1
             }
         }
     }
+    
+
+   
 }
