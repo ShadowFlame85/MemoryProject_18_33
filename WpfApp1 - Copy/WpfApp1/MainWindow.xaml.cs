@@ -28,7 +28,7 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            //grid = new GameGrid(MemoryGrid, ColNum, RowNum);
+            grid = new GameGrid(MemoryGrid, ColNum, RowNum);
         }
 
        
