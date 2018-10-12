@@ -8,24 +8,16 @@ namespace WpfApp1
 {
     public class GameGrid
     {
-        private Grid grid;
-        //private Grid memoryGrid;
-        //private int colNum;
-        //private int rowNum;
+        private Grid grid;        
 
         public GameGrid(Grid grid, int cols, int rows)
         {
             this.grid = grid;
+            this.cols = cols;
+            this.rows = rows;
             InitializeMemoryGrid(cols, rows);
 
         }
-
-        //public GameGrid(Grid memoryGrid, int colNum, int rowNum)
-        //{
-        //    this.memoryGrid = memoryGrid;
-        //    this.colNum = colNum;
-        //    this.rowNum = rowNum;
-        //}
 
         private void InitializeMemoryGrid(int cols, int rows)
         {
@@ -41,4 +33,7 @@ namespace WpfApp1
             }
         }
     }
+    
+
+   
 }
