@@ -9,24 +9,20 @@ namespace WpfApp1
     public class GameGrid
     {
         private Grid grid;
-        //private Grid memoryGrid;
-        //private int colNum;
-        //private int rowNum;
+        
+        private int colNum;
+        private int rowNum;
 
         public GameGrid(Grid grid, int cols, int rows)
         {
             this.grid = grid;
+            this.colNum = cols;
+            this.rowNum = rows;
             InitializeMemoryGrid(cols, rows);
 
         }
 
-        //public GameGrid(Grid memoryGrid, int colNum, int rowNum)
-        //{
-        //    this.memoryGrid = memoryGrid;
-        //    this.colNum = colNum;
-        //    this.rowNum = rowNum;
-        //}
-
+        
         private void InitializeMemoryGrid(int cols, int rows)
         {
             for (int i = 0; i < rows; i++)
