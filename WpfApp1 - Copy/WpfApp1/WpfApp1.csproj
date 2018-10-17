@@ -96,7 +96,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Resource Include="Resources\Theme\HarryPotter\Front1.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front10.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front11.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front12.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front13.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front14.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front15.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front16.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front17.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front18.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front2.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front3.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front4.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front5.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front6.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front7.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front8.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Front9.jpg" />
+    <Resource Include="Resources\Theme\HarryPotter\Harry Potter Border.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
