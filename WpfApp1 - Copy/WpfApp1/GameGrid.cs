@@ -66,7 +66,7 @@ namespace WpfApp1
                 for (int column = 0; column < colNum; column++)
                 {
                     Image backgroundImage = new Image();
-                    backgroundImage.Source = new BitmapImage(new Uri("Resources/Theme/HarryPotter/Harry Potter Border.png", UriKind.Relative));
+                    backgroundImage.Source = new BitmapImage(new Uri("Resources/Theme/"+ themepath + "/cardBack.jpg", UriKind.Relative));
                     backgroundImage.Tag = imageList.First();
                     imageList.RemoveAt(0);
                     backgroundImage.MouseDown += new MouseButtonEventHandler(CardClick);

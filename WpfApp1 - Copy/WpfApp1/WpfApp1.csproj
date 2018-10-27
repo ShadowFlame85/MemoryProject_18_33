@@ -116,5 +116,8 @@
     <Resource Include="Resources\Theme\HarryPotter\Front9.jpg" />
     <Resource Include="Resources\Theme\HarryPotter\Harry Potter Border.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Theme\HarryPotter\cardBack.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
