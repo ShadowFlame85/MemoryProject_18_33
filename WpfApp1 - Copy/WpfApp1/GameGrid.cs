@@ -21,8 +21,15 @@ namespace WpfApp1
         private Grid grid;
         private int colNum;
         private int rowNum;
-        #endregion
+        string firstClickImg = null;
+        string firstClickId = null;
+        string secondClickImg = null;
+        string secondClickId = null;
+        bool clicked = false;
+        int matchedCards = 0;
 
+        #endregion
+        System.Windows.Threading.DispatcherTimer cardTimer = new System.Windows.Threading.DispatcherTimer();
         #region Game Order of Operations
 
         public GameGrid(Grid grid, int cols, int rows)
@@ -53,26 +60,29 @@ namespace WpfApp1
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
 
             }
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            //grid.ColumnDefinitions.Add(new ColumnDefinition());
         }
         #endregion
 
         #region Image list and placement
         private void AddImages()
         {
+            int cardId = 1;
             List<ImageSource> imageList = GetImageList();
             for (int row = 0; row < rowNum; row++)
             {
                 for (int column = 0; column < colNum; column++)
                 {
-                    Image backgroundImage = new Image();
-                    backgroundImage.Source = new BitmapImage(new Uri("Resources/Theme/"+ themepath + "/cardBack.jpg", UriKind.Relative));
-                    backgroundImage.Tag = imageList.First();
+                    Image cardBack = new Image();
+                    cardBack.Source = new BitmapImage(new Uri("Resources/Theme/"+ themepath + "/cardBack.jpg", UriKind.Relative));
+                    cardBack.Tag = imageList.First();
+                    cardBack.Uid = cardId.ToString();
                     imageList.RemoveAt(0);
-                    backgroundImage.MouseDown += new MouseButtonEventHandler(CardClick);
-                    Grid.SetColumn(backgroundImage, column);
-                    Grid.SetRow(backgroundImage, row);
-                    grid.Children.Add(backgroundImage);
+                    cardBack.MouseDown += new MouseButtonEventHandler(CardClick);
+                    Grid.SetColumn(cardBack, column);
+                    Grid.SetRow(cardBack, row);
+                    grid.Children.Add(cardBack);
+                    cardId++;
                 }
             }
         }
@@ -111,17 +121,39 @@ namespace WpfApp1
 
         #endregion
 
-        #region Mouse interaction
+        #region Mouse interaction and card functionality
         private void CardClick(object sender, MouseButtonEventArgs e)
         {
             Image card = (Image)sender;
             ImageSource front = (ImageSource)card.Tag;
             card.Source = front;
+           
+            if(clicked == true){
+                secondClickId = card.Uid.ToString();
+                secondClickImg = card.Tag.ToString();
+                if (firstClickImg == secondClickImg && firstClickId != secondClickId)
+                {
+                    MessageBox.Show("Matched!");
+                }
+                firstClickImg = null;
+                firstClickId = null;
+                secondClickImg = null;
+                secondClickId = null;
+                clicked = false;
 
+                
+            }
+            else if (clicked == false)
+            {
+                firstClickId = card.Uid.ToString();
+                firstClickImg = card.Tag.ToString();
+                clicked = true;
+            }
+            
+            
         }
 
         #endregion
-
 
     }
 }
