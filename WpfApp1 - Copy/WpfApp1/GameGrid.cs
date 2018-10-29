@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace WpfApp1
 {
@@ -26,10 +27,20 @@ namespace WpfApp1
         string secondClickImg = null;
         string secondClickId = null;
         bool clicked = false;
-        int matchedCards = 0;
+        int matchedPairs = 0;
+        
+
 
         #endregion
-        System.Windows.Threading.DispatcherTimer cardTimer = new System.Windows.Threading.DispatcherTimer();
+        /// <summary>
+        /// Card turn delay (After second selection)
+        /// </summary>
+
+
+        DispatcherTimer timer = new DispatcherTimer();
+            
+        
+
         #region Game Order of Operations
 
         public GameGrid(Grid grid, int cols, int rows)
@@ -60,13 +71,15 @@ namespace WpfApp1
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
 
             }
-            //grid.ColumnDefinitions.Add(new ColumnDefinition());
+        //    grid.ColumnDefinitions.Add(new ColumnDefinition());
+        //    grid.ColumnDefinitions.Add(new ColumnDefinition());
         }
         #endregion
 
         #region Image list and placement
         private void AddImages()
         {
+
             int cardId = 1;
             List<ImageSource> imageList = GetImageList();
             for (int row = 0; row < rowNum; row++)
@@ -117,13 +130,18 @@ namespace WpfApp1
            
                 return imageList;
             }
-        
+
 
         #endregion
 
         #region Mouse interaction and card functionality
-        private void CardClick(object sender, MouseButtonEventArgs e)
+       
+        public void CardClick(object sender, MouseButtonEventArgs e)
         {
+
+
+            
+
             Image card = (Image)sender;
             ImageSource front = (ImageSource)card.Tag;
             card.Source = front;
@@ -134,24 +152,55 @@ namespace WpfApp1
                 if (firstClickImg == secondClickImg && firstClickId != secondClickId)
                 {
                     MessageBox.Show("Matched!");
+                    matchedPairs++;
+                    
                 }
-                firstClickImg = null;
-                firstClickId = null;
-                secondClickImg = null;
-                secondClickId = null;
-                clicked = false;
+                else
+                {
 
+                    
+                    
+
+                      timer.Interval = TimeSpan.FromSeconds(1);
+                     timer.Tick += timer_Tick;
+                      timer.Start();
+                        MessageBox.Show("Start");
+                        
+
+                      
+                    
+                }
                 
+
+
             }
             else if (clicked == false)
             {
                 firstClickId = card.Uid.ToString();
                 firstClickImg = card.Tag.ToString();
                 clicked = true;
+             
+                
             }
             
-            
+
         }
+        
+        void timer_Tick(object sender, EventArgs e)
+        {
+            MessageBox.Show("Card turns back");
+           
+            timer.Stop();
+            firstClickImg = null;
+            firstClickId = null;
+            secondClickImg = null;
+            secondClickId = null;
+            clicked = false;
+            //    throw new NotImplementedException();
+        }
+
+        
+
 
         #endregion
 
