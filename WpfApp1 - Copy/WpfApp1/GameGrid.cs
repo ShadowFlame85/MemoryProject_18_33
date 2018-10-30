@@ -73,6 +73,7 @@ namespace WpfApp1
         /// Timer for card turn delay (after 2 not matching cards)
         /// </summary>
         DispatcherTimer timer = new DispatcherTimer();
+        bool initiateTimer = false;
 
 
         #endregion
@@ -194,7 +195,11 @@ namespace WpfApp1
             Image card = (Image)sender;
             ImageSource front = (ImageSource)card.Tag;
             card.Source = front;
-           
+           if (initiateTimer == false){
+                timer.Interval = TimeSpan.FromSeconds(1);
+                timer.Tick += timer_Tick;
+                initiateTimer = true;
+            }
             if(clicked == true){
                 secondClickId = card.Uid.ToString();
                 secondClickImg = card.Tag.ToString();
@@ -210,8 +215,7 @@ namespace WpfApp1
                     
                     
 
-                      timer.Interval = TimeSpan.FromSeconds(1);
-                     timer.Tick += timer_Tick;
+                      
                       timer.Start();
                         MessageBox.Show("Start");
                         
