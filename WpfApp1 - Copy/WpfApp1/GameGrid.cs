@@ -180,7 +180,11 @@ namespace WpfApp1
         #endregion
 
         #region Mouse interaction and card functionality
-               
+               /// <summary>
+               /// Turns cards around after click and checks selected cards
+               /// </summary>
+               /// <param name="sender"></param>
+               /// <param name="e"></param>
         public void CardClick(object sender, MouseButtonEventArgs e)
         {
 
