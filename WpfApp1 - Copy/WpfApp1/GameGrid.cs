@@ -46,21 +46,13 @@ namespace WpfApp1
         /// </summary>
         int cardId = 1;
         /// <summary>
-        /// String that will store the imagePath of the first clicked image DEFAULT=NULL
+        /// Image that will store the properties of the first clicked image DEFAULT=NULL
         /// </summary>
-        string firstClickImg = null;
+        Image firstClick = null;
         /// <summary>
-        /// String that will store the imageId of the first clicked image DEFAULT=NULL
+        /// Image that will store the properties of the second clicked image DEFAULT=NULL
         /// </summary>
-        string firstClickId = null;
-        /// <summary>
-        /// String that will store the imagePath of the second clicked image DEFAULT=NULL
-        /// </summary>
-        string secondClickImg = null;
-        /// <summary>
-        /// String that will store the imageId of the second clicked image DEFAULT=NULL
-        /// </summary>
-        string secondClickId = null;
+        Image secondClick = null;
         /// <summary>
         /// Bool that will specify if a card is already clicked(True) or not (False) DEFAULT=FALSE
         /// </summary>
@@ -73,8 +65,22 @@ namespace WpfApp1
         /// Timer for card turn delay (after 2 not matching cards)
         /// </summary>
         DispatcherTimer timer = new DispatcherTimer();
+        /// <summary>
+        /// Bool that makes sure the timer is only activated once
+        /// </summary>
         bool initiateTimer = false;
-
+        /// <summary>
+        /// Bool that makes sure that the user cannot turn around any card in the card turn delay 9and thus breaking the game) DEFAULT=TRUE
+        /// </summary>
+        bool AllowClick = true;
+        /// <summary>
+        /// Bool to check if the game is won or not after game ending (true == won, false == lost) DEFAULT=FALSE
+        /// </summary>
+        bool gameWin = false;
+        /// <summary>
+        /// Card turn delay interval
+        /// </summary>
+        double timerInterval = 0.60;
 
         #endregion
 
@@ -119,9 +125,9 @@ namespace WpfApp1
         /// <summary>
         /// Function for inserting cardBack images and Front images to cardBack.Tag
         /// </summary>
-        private void AddImages()
+        public void AddImages()
         {
-
+            
             
             List<ImageSource> imageList = GetImageList();
             for (int row = 0; row < rowNum; row++)
@@ -181,61 +187,67 @@ namespace WpfApp1
         #endregion
 
         #region Mouse interaction and card functionality
-               /// <summary>
-               /// Turns cards around after click and checks selected cards
-               /// </summary>
-               /// <param name="sender"></param>
-               /// <param name="e"></param>
+        /// <summary>
+        /// Turns cards around after click and checks selected cards
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void CardClick(object sender, MouseButtonEventArgs e)
         {
+            if (AllowClick == true) { 
 
 
-            
 
             Image card = (Image)sender;
             ImageSource front = (ImageSource)card.Tag;
             card.Source = front;
-           if (initiateTimer == false){
-                timer.Interval = TimeSpan.FromSeconds(1);
+            if (initiateTimer == false)
+            {
+                timer.Interval = TimeSpan.FromSeconds(timerInterval);
                 timer.Tick += timer_Tick;
                 initiateTimer = true;
             }
-            if(clicked == true){
-                secondClickId = card.Uid.ToString();
-                secondClickImg = card.Tag.ToString();
-                if (firstClickImg == secondClickImg && firstClickId != secondClickId)
+            if (firstClick == null)
+            {
+                
+                firstClick = card;
+                clicked = true;
+
+
+            }
+            else if (secondClick == null)
+            {
+                
+                secondClick = card;
+                if (firstClick.Source.ToString() == secondClick.Source.ToString() && firstClick.Uid.ToString() != secondClick.Uid.ToString())
                 {
                     MessageBox.Show("Matched!");
                     matchedPairs++;
+                    firstClick.IsEnabled = false;
+                    secondClick.IsEnabled = false;
+                    firstClick = null;
                     
-                }
+                    secondClick = null;
+                    
+                    if (matchedPairs == halfNum)
+                        {
+                            gameWin = true;
+                            gameOver();
+                        }
+                    }
                 else
                 {
-
-                    
-                    
-
-                      
-                      timer.Start();
-                        MessageBox.Show("Start");
-                        
-
-                      
-                    
+                    timer.Start();
+                    AllowClick = false;
+                    //MessageBox.Show("Start");
                 }
-                
-
 
             }
-            else if (clicked == false)
-            {
-                firstClickId = card.Uid.ToString();
-                firstClickImg = card.Tag.ToString();
-                clicked = true;
-             
-                
-            }
-            
+        }
+            #endregion
+
+        #region Card turn delay timer
+
 
         }
         /// <summary>
@@ -245,19 +257,30 @@ namespace WpfApp1
         /// <param name="e"></param>
         void timer_Tick(object sender, EventArgs e)
         {
-            MessageBox.Show("Card turns back");
-           
+            // MessageBox.Show("Card turns back");
+            
             timer.Stop();
-            firstClickImg = null;
-            firstClickId = null;
-            secondClickImg = null;
-            secondClickId = null;
-            clicked = false;
+            firstClick.Source = new BitmapImage(new Uri("Resources/Theme/" + themepath + "/cardBack.jpg", UriKind.Relative));
+            secondClick.Source = new BitmapImage(new Uri("Resources/Theme/" + themepath + "/cardBack.jpg", UriKind.Relative));
+            AllowClick = true;
+            firstClick = null;
+            secondClick = null;
+            
             //    throw new NotImplementedException();
         }
+        #endregion
 
-        
-
+        #region Ending
+        /// <summary>
+        /// will end the game (And check if won or lost)
+        /// </summary>
+        void gameOver()
+        {
+            if (gameWin == true)
+            {
+                MessageBox.Show("Congratulations");
+            } 
+        }
 
         #endregion
 
