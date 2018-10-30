@@ -17,29 +17,65 @@ namespace WpfApp1
 
     {
         #region Variables
-
+        /// <summary>
+        /// This stores the selected theme
+        /// </summary>
         private string themepath = "HarryPotter";
+        /// <summary>
+        /// Creates a grid var
+        /// </summary>
         private Grid grid;
+        /// <summary>
+        /// Amount of Columns in the Gamegrid
+        /// </summary>
         private int colNum;
+        /// <summary>
+        /// Amount of Rows in the Gamegrid 
+        /// </summary>
         private int rowNum;
+        /// <summary>
+        /// Total amount of cards (rowNum * colNum)
+        /// </summary>
+        private int totalNum;
+        /// <summary>
+        /// Total amount of cards (rowNum * colNum/2)
+        /// </summary>
+        private int halfNum;
+        /// <summary>
+        /// Integer that will give each card a unique ID
+        /// </summary>
+        int cardId = 1;
+        /// <summary>
+        /// String that will store the imagePath of the first clicked image DEFAULT=NULL
+        /// </summary>
         string firstClickImg = null;
+        /// <summary>
+        /// String that will store the imageId of the first clicked image DEFAULT=NULL
+        /// </summary>
         string firstClickId = null;
+        /// <summary>
+        /// String that will store the imagePath of the second clicked image DEFAULT=NULL
+        /// </summary>
         string secondClickImg = null;
+        /// <summary>
+        /// String that will store the imageId of the second clicked image DEFAULT=NULL
+        /// </summary>
         string secondClickId = null;
+        /// <summary>
+        /// Bool that will specify if a card is already clicked(True) or not (False) DEFAULT=FALSE
+        /// </summary>
         bool clicked = false;
+        /// <summary>
+        /// Integer that will count how many paired cards there are in the current game (If matchedpairs == halfNum game is over) DEFAULT=0
+        /// </summary>
         int matchedPairs = 0;
-        
+        /// <summary>
+        /// Timer for card turn delay (after 2 not matching cards)
+        /// </summary>
+        DispatcherTimer timer = new DispatcherTimer();
 
 
         #endregion
-        /// <summary>
-        /// Card turn delay (After second selection)
-        /// </summary>
-
-
-        DispatcherTimer timer = new DispatcherTimer();
-            
-        
 
         #region Game Order of Operations
 
@@ -71,16 +107,21 @@ namespace WpfApp1
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
 
             }
-        //    grid.ColumnDefinitions.Add(new ColumnDefinition());
-        //    grid.ColumnDefinitions.Add(new ColumnDefinition());
+            //    grid.ColumnDefinitions.Add(new ColumnDefinition());
+            //    grid.ColumnDefinitions.Add(new ColumnDefinition());
+            totalNum = colNum * rowNum;
+            halfNum = colNum * rowNum/2;
         }
         #endregion
 
         #region Image list and placement
+        /// <summary>
+        /// Function for inserting cardBack images and Front images to cardBack.Tag
+        /// </summary>
         private void AddImages()
         {
 
-            int cardId = 1;
+            
             List<ImageSource> imageList = GetImageList();
             for (int row = 0; row < rowNum; row++)
             {
@@ -99,11 +140,15 @@ namespace WpfApp1
                 }
             }
         }
-
+        /// <summary>
+        /// randomizes imagePaths as string and converts them to ImageSource (in a list)
+        /// </summary>
+        /// <returns></returns>
             private List<ImageSource> GetImageList()
             {
+            
             List<string> Stage1 = new List<string>();
-            for (int i = 1; i < (colNum * rowNum / 2 + 1); i++)
+            for (int i = 1; i < halfNum + 1; i++)
             {
                 string imagePath = string.Format(@"Resources/Theme/" + themepath + "/Front" + i + ".jpg");
 
@@ -113,16 +158,16 @@ namespace WpfApp1
             }
 
             Random random = new Random();
+            
             List<ImageSource> imageList = new List<ImageSource>();
                 
-                for (int i = 1; i < 37; i++)
+                for (int i = 1; i < totalNum +1; i++)
                 {
                 
                 int rnd = random.Next(Stage1.Count);
                 string source = Stage1[rnd];
                     ImageSource CardPath = new BitmapImage(new Uri(source, UriKind.Relative));
                     imageList.Add(CardPath);
-                //imageList.Add(CardPath);
 
                 Stage1.RemoveAt(rnd);
 
@@ -135,7 +180,7 @@ namespace WpfApp1
         #endregion
 
         #region Mouse interaction and card functionality
-       
+               
         public void CardClick(object sender, MouseButtonEventArgs e)
         {
 
@@ -185,7 +230,11 @@ namespace WpfApp1
             
 
         }
-        
+        /// <summary>
+        /// Turns cards back (After specified delay)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void timer_Tick(object sender, EventArgs e)
         {
             MessageBox.Show("Card turns back");
