@@ -212,7 +212,7 @@ namespace WpfApp1
                 
                 firstClick = card;
                 clicked = true;
-
+                    firstClick.IsEnabled = false;
 
             }
             else if (secondClick == null)
@@ -261,6 +261,7 @@ namespace WpfApp1
             
             timer.Stop();
             firstClick.Source = new BitmapImage(new Uri("Resources/Theme/" + themepath + "/cardBack.jpg", UriKind.Relative));
+            firstClick.IsEnabled = true;
             secondClick.Source = new BitmapImage(new Uri("Resources/Theme/" + themepath + "/cardBack.jpg", UriKind.Relative));
             AllowClick = true;
             firstClick = null;
